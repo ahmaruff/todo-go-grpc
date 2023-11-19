@@ -3,6 +3,7 @@ module todo-grpc
 go 1.21.4
 
 require (
+	github.com/mattn/go-sqlite3 v1.14.18
 	github.com/oklog/ulid/v2 v2.1.0
 	github.com/rs/zerolog v1.31.0
 	google.golang.org/grpc v1.59.0
