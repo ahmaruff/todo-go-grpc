@@ -11,7 +11,7 @@ import (
 
 var ErrTodoNotFound error = errors.New("todo: not found")
 
-func findItemById(ctx context.Context, tx *sql.Tx, id ulid.ULID) (item TodoItem, err error) {
+func FindItemById(ctx context.Context, tx *sql.Tx, id ulid.ULID) (item TodoItem, err error) {
 	q := `SELECT id, title, created_at, done_at FROM todolist WHERE id = ?`
 
 	stmt, err := DB.PrepareContext(ctx, q)
@@ -33,7 +33,7 @@ func findItemById(ctx context.Context, tx *sql.Tx, id ulid.ULID) (item TodoItem,
 	return item, nil
 }
 
-func saveItem(ctx context.Context, tx *sql.Tx, item TodoItem) error {
+func SaveItem(ctx context.Context, tx *sql.Tx, item TodoItem) error {
 	q := `INSERT INTO todolist(id, title, created_at, done_at) VALUES(?, ?, ?, ?) ON CONFLICT (id) DO UPDATE SET title= ?, done_at= ?`
 
 	stmt, err := tx.PrepareContext(ctx, q)
@@ -53,7 +53,7 @@ func saveItem(ctx context.Context, tx *sql.Tx, item TodoItem) error {
 	return nil
 }
 
-func deleteItemById(ctx context.Context, tx *sql.Tx, id ulid.ULID) (bool, error) {
+func DeleteItemById(ctx context.Context, tx *sql.Tx, id ulid.ULID) (bool, error) {
 	q := `DELETE FROM todolist WHERE id = ?`
 
 	stmt, err := tx.PrepareContext(ctx, q)
