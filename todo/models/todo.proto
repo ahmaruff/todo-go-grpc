@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "todo-grpc/todo/models";
+
+message TodoItem {
+    string id = 1;
+    string title = 2;
+    google.protobuf.Timestamp created_at = 3;
+    google.protobuf.Timestamp done_at = 4;
+    optional bool is_done = 5;
+}
+
+message TodoItemId {
+    string id = 1;
+}
+
+message TodoItems {
+    repeated TodoItem items = 1;
+}
+
+message CreateTodoItemRequest {
+    string title = 1;
+}
+
+message UpdateTodoItemRequest {
+    string id = 1;
+    string title = 2;
+}
+
+message MakeTodoItemDoneRequest {
+    string id = 1;
+    google.protobuf.Timestamp done_at = 2;
+}
+
+service Todo {
+    rpc GetTodoItem(TodoItemId) returns (TodoItem);
+    rpc ListTodoItems(google.protobuf.Empty) returns (TodoItems);
+    rpc CreateTodoItem(CreateTodoItemRequest) returns (TodoItem);
+    rpc UpdateTodoItem(UpdateTodoItemRequest) returns (TodoItem);
+    rpc DeleteTodoItem(TodoItemId) returns (google.protobuf.Empty);
+    rpc MakeTodoItemDone(TodoItemId) returns (google.protobuf.Empty);
+}
